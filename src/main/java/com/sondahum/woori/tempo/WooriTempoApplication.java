@@ -6,14 +6,14 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class TempoApplication extends SpringBootServletInitializer {
+public class WooriTempoApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        SpringApplication.run(TempoApplication.class, args);
+        SpringApplication.run(WooriTempoApplication.class, args);
     }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(TempoApplication.class);
+        return application.sources(WooriTempoApplication.class);
     }
 }
