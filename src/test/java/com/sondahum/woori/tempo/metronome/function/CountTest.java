@@ -18,8 +18,8 @@ public class CountTest {
     @Test
     public void count() throws InterruptedException {
         TempoDto dto = new TempoDto();
-        dto.bpm = 100;
-        dto.bpb = 5;
+        dto.bpm = 130;
+        dto.bpb = 3;
 
         metronomeService.startCount(dto);
     }

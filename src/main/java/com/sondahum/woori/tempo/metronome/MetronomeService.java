@@ -1,14 +1,11 @@
 package com.sondahum.woori.tempo.metronome;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.time.StopWatch;
-import org.springframework.stereotype.Service;
 
-@Service
+
 @Slf4j
 public class MetronomeService {
     private final Tempo tempo = new Tempo();
-    private final StopWatch stopWatch = new StopWatch();
 
     // note | TAP으로 tempo setting등은 front에서 해야하는 일이다.
     private void setTempo(TempoDto dto) {
@@ -17,23 +14,20 @@ public class MetronomeService {
 
 
     public void startCount(TempoDto dto) throws InterruptedException {
-        stopWatch.reset();
         setTempo(dto);
-        stopWatch.start();
-        System.out.println("start!!");
+        countIn();
 
-        System.out.print("Count in :");
-        for (int i = 1; i <= tempo.getBeatPerBar(); i++) {
-            Thread.sleep(tempo.getBeatDuration());
-            System.out.printf(" %d", i);
-        }
-        System.out.println("");
-        while (true) {
-            for (int i = 1; i <= tempo.getBeatPerBar(); i++) {
-                System.out.println("tick --> " + i);
+        for (;;) {
+            int i = 1;
+            for (boolean rhythm : tempo.getRhythm()) {
+                System.out.println(rhythm + " : " + i++);
                 Thread.sleep(tempo.getBeatDuration());
             }
         }
+    }
+
+    public void countIn() {
+
     }
 
 }

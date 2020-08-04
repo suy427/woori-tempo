@@ -22,6 +22,12 @@ public class Tempo implements Callable<Boolean> {
 
     }
 
+    public boolean[] getRhythm() {
+        boolean[] rhythm = new boolean[beatPerBar];
+        rhythm[0] = true;
+        return rhythm;
+    }
+
     @Override
     public Boolean call() throws Exception {
         return null;
