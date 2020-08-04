@@ -15,7 +15,7 @@ public class WooriServer extends ServerSocket {
     private final List<Socket> clients = new ArrayList<>();
     private ExecutorService receivePool = Executors.newCachedThreadPool();
     private final List<SocketListener> listeners = new ArrayList<>();
-    private final FrontController controller;
+    private final FrontController frontController;
 
 
     public static WooriServer getInstance(int port, WooriConfig configure) throws IOException {
@@ -27,7 +27,7 @@ public class WooriServer extends ServerSocket {
 
     private WooriServer(int port, WooriConfig configure) throws IOException {
         super();
-        this.controller = new FrontController(configure);
+        this.frontController = new FrontController(configure);
         // note. ipep ==> IP EndPoint.
         InetSocketAddress ipep = new InetSocketAddress(port);
         super.bind(ipep);
@@ -53,7 +53,7 @@ public class WooriServer extends ServerSocket {
         WooriHttp request = streams.readRequest();
         System.out.println("received HTTP Message :\n" + request);
 
-        byte[] response = controller.requestMapping(request);
+        byte[] response = frontController.controllerMapping(request);
         streams.sendResponse(response);
 
         FileInputStream fis = new FileInputStream(file);
