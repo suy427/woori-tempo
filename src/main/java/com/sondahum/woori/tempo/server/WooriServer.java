@@ -2,6 +2,8 @@ package com.sondahum.woori.tempo.server;
 
 import com.sondahum.woori.tempo.server.controller.FrontController;
 import com.sondahum.woori.tempo.server.packet.WooriHttpHeader;
+import com.sondahum.woori.tempo.server.packet.WooriHttpRequest;
+import com.sondahum.woori.tempo.server.packet.WooriHttpResponse;
 import com.sondahum.woori.tempo.server.packet.WooriStreams;
 
 import java.io.*;
@@ -40,8 +42,9 @@ public class WooriServer extends ServerSocket {
         // note. 그리고 client가 접속하면 thread하나 만들어서 처리함.
         Executors.newSingleThreadExecutor().submit(() -> {
             try {
+                System.out.println("Woori Server started...");
                 Socket client = super.accept();
-                System.out.println("Client" + client.getInetAddress().getHostAddress() + "visited.");
+                System.out.println("Client [" + client.getInetAddress().getHostAddress() + "] visited.");
                 clients.add(client);
 
                 handleClient(client); // note. 여기가 request를 처리하는 부분.
@@ -54,10 +57,10 @@ public class WooriServer extends ServerSocket {
     private void handleClient(Socket client) throws IOException {
         WooriStreams streams = new WooriStreams(client);
 
-        WooriHttpHeader request = streams.readRequest();
-        System.out.println("received HTTP Message :\n" + request);
+        WooriHttpRequest request = streams.readRequest();
+        System.out.println("received HTTP Message :\n" + request.getHeader());
 
-        byte[] response = frontController.controllerMapping(request);
+        WooriHttpResponse response = frontController.controllerMapping(request);
         streams.sendResponse(response); // note. client에게 response보냄.
 
         streams.close();
