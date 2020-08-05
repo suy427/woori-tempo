@@ -6,14 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class WooriConfig {
-    private String baseDir = "/tmp/woori";
-    private String fileName = "/";
+    // note. 테스트용..
+    private String baseDir = "C:\\Users\\data\\Desktop\\study-dahum\\git\\mine\\tempo\\src\\test\\resources\\";
+    private String indexPage = "/";
 
-    public void setBaseDir(String path) {
-        baseDir = path;
-    }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
 }
