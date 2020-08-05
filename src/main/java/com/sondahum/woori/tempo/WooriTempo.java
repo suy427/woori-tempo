@@ -32,12 +32,17 @@ public class WooriTempo {
     public static void main(String[] args) {
         int port = 8080;
 
-        // note | Usage : ./woori start [port]
+        // note. $ ./woori start [port]
+        // note. $ ./woori --basedir [path] --
+        WooriConfig configure = new WooriConfig();
 
         if (args.length == 3)
             port = Integer.parseInt(args[2]);
+        else if (args.length == 4) {
+            configure.setBaseDir(args[2]);
+        }
 
-        WooriConfig configure = new WooriConfig();
+
 
         try {
             WooriServer.getInstance(port, configure);
