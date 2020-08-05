@@ -1,12 +1,10 @@
 package com.sondahum.woori.tempo.metronome;
 
 import com.sondahum.woori.tempo.server.WooriService;
-import lombok.extern.slf4j.Slf4j;
-
-import java.net.ServerSocket;
+import jdk.nashorn.internal.runtime.logging.Logger;
 
 
-@Slf4j
+@Logger
 public class MetronomeService implements WooriService {
     private final Tempo tempo = new Tempo();
 
@@ -31,9 +29,10 @@ public class MetronomeService implements WooriService {
     private void countIn() throws InterruptedException {
         int i = 1;
         for (boolean rhythm : tempo.getRhythm()) {
-            System.out.println(rhythm + " : " + i++);
+            System.out.println("count : " + i++);
             Thread.sleep(tempo.getBeatDuration());
         }
+        System.out.println("\n");
     }
 
 }
