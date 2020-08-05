@@ -4,7 +4,7 @@ import com.sondahum.woori.tempo.server.controller.WooriController;
 
 public class TeamSignalController implements WooriController {
     @Override
-    public byte[] requestMapping(String url) {
+    public byte[] handleRequest(String url) {
         return new byte[0];
     }
 }

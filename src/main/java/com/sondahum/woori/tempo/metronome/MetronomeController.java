@@ -10,7 +10,7 @@ public class MetronomeController implements WooriController {
     private MetronomeService metronomeService = new MetronomeService();
 
     @Override
-    public byte[] requestMapping(String url) {
+    public byte[] handleRequest(String url) {
         String request = url.split("/")[1];
         byte[] response;
 
