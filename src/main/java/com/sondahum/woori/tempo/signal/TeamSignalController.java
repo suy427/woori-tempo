@@ -1,6 +1,6 @@
 package com.sondahum.woori.tempo.signal;
 
-import com.sondahum.woori.tempo.server.WooriController;
+import com.sondahum.woori.tempo.server.controller.WooriController;
 
 public class TeamSignalController implements WooriController {
     @Override

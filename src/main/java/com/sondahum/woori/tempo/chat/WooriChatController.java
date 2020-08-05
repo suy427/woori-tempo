@@ -1,6 +1,6 @@
 package com.sondahum.woori.tempo.chat;
 
-import com.sondahum.woori.tempo.server.WooriController;
+import com.sondahum.woori.tempo.server.controller.WooriController;
 
 public class WooriChatController implements WooriController {
     @Override
