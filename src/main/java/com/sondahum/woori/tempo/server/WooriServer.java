@@ -1,5 +1,9 @@
 package com.sondahum.woori.tempo.server;
 
+import com.sondahum.woori.tempo.server.controller.FrontController;
+import com.sondahum.woori.tempo.server.packet.WooriHttpHeader;
+import com.sondahum.woori.tempo.server.packet.WooriStreams;
+
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -32,7 +36,7 @@ public class WooriServer extends ServerSocket {
         InetSocketAddress ipep = new InetSocketAddress(port);
         super.bind(ipep);
 
-        // note. 일단 client를 기다리는 상태 listen상태로 대기함.
+        // note. 일단 client를 기다리는 상태 -> listen상태로 대기함.
         // note. 그리고 client가 접속하면 thread하나 만들어서 처리함.
         Executors.newSingleThreadExecutor().submit(() -> {
             try {
@@ -40,7 +44,7 @@ public class WooriServer extends ServerSocket {
                 System.out.println("Client" + client.getInetAddress().getHostAddress() + "visited.");
                 clients.add(client);
 
-                handleClient(client); // note. client가 들어오면 receive로 handling해줌.
+                handleClient(client); // note. 여기가 request를 처리하는 부분.
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -50,23 +54,13 @@ public class WooriServer extends ServerSocket {
     private void handleClient(Socket client) throws IOException {
         WooriStreams streams = new WooriStreams(client);
 
-        WooriHttp request = streams.readRequest();
+        WooriHttpHeader request = streams.readRequest();
         System.out.println("received HTTP Message :\n" + request);
 
         byte[] response = frontController.controllerMapping(request);
-        streams.sendResponse(response);
+        streams.sendResponse(response); // note. client에게 response보냄.
 
-        FileInputStream fis = new FileInputStream(file);
-        byte[] buffer = new byte[1024];
-        int readCount = 0;
-        while ((readCount = fis.read(buffer)) != -1) {
-            out.write(buffer, 0, readCount);
-        }
-        out.flush();
-
-
-        out.close();
-        in.close();
+        streams.close();
         client.close(); // 클라이언트와 접속이 close된다.
     }
 
@@ -82,10 +76,8 @@ public class WooriServer extends ServerSocket {
 
     public void send(Socket client, String msg) {
         byte[] data = msg.getBytes();
-        ByteBuffer length = ByteBuffer.allocate(4);
-        length.putInt(data.length);
+
         try (OutputStream sender = client.getOutputStream()) {
-            sender.write(length.array());
             sender.write(data);
         } catch (Throwable e) {
             try {

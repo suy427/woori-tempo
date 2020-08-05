@@ -19,7 +19,7 @@ public class MetronomeService implements WooriService {
         setTempo(dto);
         countIn();
 
-        for (;;) {
+        for (; ; ) {
             int i = 1;
             for (boolean rhythm : tempo.getRhythm()) {
                 System.out.println(rhythm + " : " + i++);
@@ -28,8 +28,12 @@ public class MetronomeService implements WooriService {
         }
     }
 
-    public void countIn() {
-
+    private void countIn() throws InterruptedException {
+        int i = 1;
+        for (boolean rhythm : tempo.getRhythm()) {
+            System.out.println(rhythm + " : " + i++);
+            Thread.sleep(tempo.getBeatDuration());
+        }
     }
 
 }
