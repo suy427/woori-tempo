@@ -23,8 +23,7 @@ public class FrontController {
             controller = new WooriChatController();
         } else if (baseURL.equals("signal")) {
             controller = new TeamSignalController();
-        } else
-            throw new IllegalArgumentException();
+        } else            throw new IllegalArgumentException();
 
         return controller.requestMapping(request.getUrl());
     }
